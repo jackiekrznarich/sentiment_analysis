@@ -31,7 +31,16 @@ async function getArticleUrls(browser) {
         console.log("Getting links for " + website.link);
         const page = await browser.newPage();
         await page.goto(website.link,  {waitUntil: 'domcontentloaded'});
-        var hrefs = await Promise.all((await page.$x(website.articleXpath)).map(async item => await (await item.getProperty('href')).jsonValue()));
+        var hrefs = await page.evaluate(async(xpath) => {
+            const xPathMatch = document.evaluate(xpath, document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+            var hrefs = [];
+            for (let i = 0; i < xPathMatch.snapshotLength; i++) {
+                node = xPathMatch.snapshotItem(i);
+                hrefs.push(node.href);
+            }
+            return hrefs;
+        }, website.articleXpath);
+
         console.log(hrefs);
         urls = urls.concat(hrefs);
     }
