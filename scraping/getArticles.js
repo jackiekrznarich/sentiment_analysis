@@ -1,9 +1,10 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-extra');
+const StealthPlugin = require("puppeteer-extra-plugin-stealth");
+const {executablePath} = require('puppeteer');
 const fs = require('fs');
 
 
 async function getArticleUrls(browser) {
-    const page = await browser.newPage();
     // will need to pull from database which of these to use, for now just hardcode
     // each user will have specific websites they wish to use articles from
     // add more, for now just cnn
@@ -13,6 +14,11 @@ async function getArticleUrls(browser) {
             link: "https://edition.cnn.com/business/investing", // Link to main news outlet finance pag
             articleXpath: "/html/body/div[1]//div/section//a", // How to match for hrefs, will vary
             dbReference: 1 //add this number to database if user specifies this website to reference
+        },
+        {
+            link: "https://finance.yahoo.com/news/",
+            articleXpath: '//*[@id="Fin-Stream"]/ul//div/div/div[2]/h3/a',
+            dbReference: 2
         }
         // add more here
     ];
@@ -23,7 +29,8 @@ async function getArticleUrls(browser) {
     //iterate through news outlets
     for (website of newWebsites) {
         console.log("Getting links for " + website.link);
-        await page.goto(website.link,  {waitUntil: 'domcontentloaded', timeout: 10000});
+        const page = await browser.newPage();
+        await page.goto(website.link,  {waitUntil: 'domcontentloaded'});
         var hrefs = await Promise.all((await page.$x(website.articleXpath)).map(async item => await (await item.getProperty('href')).jsonValue()));
         console.log(hrefs);
         urls = urls.concat(hrefs);
@@ -35,7 +42,7 @@ async function getArticleUrls(browser) {
 // Write to tmp file
 async function saveUrls(urls) {
     console.log("Writing urls to file");
-    
+
     //change array to string that can be written to file with each url on a new line
     var data = urls.join('\n');
 
@@ -62,13 +69,15 @@ async function clearData() {
 // Starting point
 (async () => {
     console.log("Scraping for hrefs");
+    puppeteer.use(StealthPlugin());
     const browser = await puppeteer.launch({
-		headless: false,
-		args: [`--window-size=${1400},${900}`], // new option
+		headless: true, // Switch to true to not let browser window open
+		args: [`--window-size=${1400},${900}`], 
 		defaultViewport: {
 			width:1400,
 			height:900
-		}
+		},
+        executablePath: executablePath(),
 	});
     //initial run
     getArticleUrls(browser);
