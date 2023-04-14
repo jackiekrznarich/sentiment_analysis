@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Financial Sentiment Analysis Tool</title>
+</head>
+
+<body>
+    <h1>Financial Sentiment Analysis Tool</h1>
+    <form>
+        <label for="stocks">Stocks:</label>
+        <input type="text" id="stocks" name="stocks" placeholder="AAPL, MSFT, GOOGL, ...">
+        <br><br>
+        <label for="frequency">Frequency of Notifications:</label>
+        <select id="frequency" name="frequency">
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+        </select>
+        <br><br>
+        <label for="investing-style">Investing Style:</label>
+        <input type="radio" id="active" name="investing-style" value="active">
+        <label for="active">Active</label>
+        <input type="radio" id="passive" name="investing-style" value="passive">
+        <label for="passive">Passive</label>
+        <br><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+
+</html>
