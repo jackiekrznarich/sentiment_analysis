@@ -25,11 +25,12 @@ async function getText(link) {
         }
       };
       
-    var text = await axios.request(options).then((response) => {
+      var text = await axios.request(options).then((response) => {
         return response.data;
-    }).catch(function (error) {
+        }).catch(function (error) {
         console.error(error);
-    });
+        });
+      console.log(text);
     return {link: link, text: text.article.text};
 }
 
@@ -62,9 +63,16 @@ async function saveText(text) {
     var fs = require('fs');
     var links = fs.readFileSync('tmp/urls.txt').toString().split("\n");
     var text = [];
-    for (var link of links) {
-        text.push(await getText(link));
+    
+    async function delay(links) {
+        articles = [];
+        for (var link of links) {
+            articles.push(await getText(link));
+            await new Promise(resolve => setTimeout(resolve, 2000));
+        }
+        return articles;
     }
+    text = await delay(links);
     text.push(await getText(links[0]));
     text = await cleanText(text);
     saveText({articles: text});
