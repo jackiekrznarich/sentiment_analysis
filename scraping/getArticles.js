@@ -40,11 +40,11 @@ async function getArticleUrls(browser) {
             }
             return hrefs;
         }, website.articleXpath);
-
-        console.log(hrefs);
-        urls = urls.concat(hrefs);
+        const noDuplicates = new Set(hrefs);
+        urls = urls.concat(Array.from(noDuplicates));
     }
     await browser.close();
+    console.log(urls);
     saveUrls(urls);
 }
 

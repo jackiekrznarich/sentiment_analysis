@@ -2,6 +2,7 @@ const axios = require("axios");
 const config = require('../config');
 const fs = require('fs');
 
+
 // Get text from articles
 
 async function getText(link) {
@@ -11,16 +12,19 @@ async function getText(link) {
     encodedParams.append("url", link);
 
     const options = {
-    method: 'POST',
-    url: 'https://text-analysis12.p.rapidapi.com/article-extraction/api/v1.3',
-    headers: {
-        'content-type': 'application/x-www-form-urlencoded',
-        'X-RapidAPI-Key': config.api_key,
-        'X-RapidAPI-Host': 'text-analysis12.p.rapidapi.com'
-    },
-    data: encodedParams
-    };
-
+        method: 'GET',
+        url: 'https://lexper.p.rapidapi.com/v1.1/extract',
+        params: {
+          url: link,
+          js_timeout: '30',
+          media: 'false'
+        },
+        headers: {
+          'X-RapidAPI-Key': config.api_key,
+          'X-RapidAPI-Host': 'lexper.p.rapidapi.com'
+        }
+      };
+      
     var text = await axios.request(options).then((response) => {
         return response.data;
     }).catch(function (error) {
