@@ -1,32 +1,67 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <meta charset="UTF-8">
     <title>Financial Sentiment Analysis Tool</title>
-</head>
-
-<body>
+    <style>
+      body {
+        background-color: #2ecc71;
+        color: #fff;
+      }
+      form {
+        width: 80%;
+        margin: 0 auto;
+        background-color: #3498db;
+        padding: 20px;
+        border-radius: 10px;
+      }
+      input[type="text"], select, input[type="radio"] {
+        padding: 10px;
+        margin: 10px;
+        border-radius: 5px;
+        border: none;
+      }
+      input[type="submit"] {
+        background-color: #2ecc71;
+        color: #fff;
+        border-radius: 5px;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+      }
+      h1 {
+        text-align: center;
+        margin-top: 50px;
+      }
+    </style>
+  </head>
+  <body>
     <h1>Financial Sentiment Analysis Tool</h1>
     <form>
-        <label for="stocks">Stocks:</label>
-        <input type="text" id="stocks" name="stocks" placeholder="AAPL, MSFT, GOOGL, ...">
-        <br><br>
-        <label for="frequency">Frequency of Notifications:</label>
-        <select id="frequency" name="frequency">
-            <option value="daily">Daily</option>
-            <option value="weekly">Weekly</option>
-            <option value="monthly">Monthly</option>
-        </select>
-        <br><br>
-        <label for="investing-style">Investing Style:</label>
-        <input type="radio" id="active" name="investing-style" value="active">
-        <label for="active">Active</label>
-        <input type="radio" id="passive" name="investing-style" value="passive">
-        <label for="passive">Passive</label>
-        <br><br>
-        <input type="submit" value="Submit">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+      <br><br>
+      <label for="date-of-birth">Date of Birth:</label>
+      <input type="date" id="date-of-birth" name="date-of-birth" required>
+      <br><br>
+      <label for="stocks">Stocks:</label>
+      <input type="text" id="stocks" name="stocks" placeholder="AAPL, MSFT, GOOGL, ..." required>
+      <br><br>
+      <label for="frequency">Frequency of Notifications:</label>
+      <select id="frequency" name="frequency" required>
+        <option value="">Choose an option</option>
+        <option value="daily">Daily</option>
+        <option value="weekly">Weekly</option>
+        <option value="monthly">Monthly</option>
+      </select>
+      <br><br>
+      <label for="investing-style">Investing Style:</label>
+      <input type="radio" id="active" name="investing-style" value="active" required>
+      <label for="active">Active</label>
+      <input type="radio" id="passive" name="investing-style" value="passive" required>
+      <label for="passive">Passive</label>
+      <br><br>
+      <input type="submit" value="Submit">
     </form>
-</body>
-
+  </body>
 </html>
